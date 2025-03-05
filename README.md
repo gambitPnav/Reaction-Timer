@@ -3,6 +3,8 @@
 ## Overview
 The **Reaction Timer Challenge** is a fun and interactive game built with **React.js and Vite**. It tests users' reaction speed by measuring the time taken to click after a random delay. The game includes features such as a **leaderboard**, **dark mode**, **sound effects**, and a **"Too Soon!" detection** to ensure accurate timing.
 
+This game is also deployed on telegram : https://t.me/reaction_timerr_bot/reaction_timer_game
+
 ## Features
 - 🎯 **Reaction Time Measurement** – Click as fast as possible once the screen turns green!
 - 🏆 **Leaderboard** – Tracks the best 5 reaction times.
