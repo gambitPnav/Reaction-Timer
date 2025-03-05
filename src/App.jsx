@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import clickSound from "./sounds/click.mp3";
 import tooSoonSound from "./sounds/too-soon.mp3";
@@ -19,28 +19,58 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [newBest, setNewBest] = useState(false);
   const [waiting, setWaiting] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  // Store timeout ID to clear if needed
+  const timeoutRef = useRef(null);
+
+  // Check for screen size and update on resize
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     document.body.className = darkMode ? "dark" : "";
   }, [darkMode]);
 
   const playSound = (soundFile) => {
-    const audio = new Audio(soundFile);
-    audio.play();
+    try {
+      const audio = new Audio(soundFile);
+      audio.play();
+    } catch (error) {
+      console.error("Error playing sound:", error);
+    }
   };
 
-  const startGame = async () => {
+  const startGame = () => {
     setGameState("waiting");
     setTooSoon(false);
     setNewBest(false);
     setWaiting(true);
 
-    const delay = Math.floor(Math.random() * 3000) + 2000;
-    await new Promise((resolve) => setTimeout(resolve, delay));
+    // Close menu if open on mobile
+    if (isMobile) {
+      setMenuVisible(false);
+    }
 
-    setGameState("react");
-    setStartTime(Date.now());
-    setWaiting(false);
+    // Clear any previous timeouts
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    const delay = Math.floor(Math.random() * 3000) + 2000;
+    timeoutRef.current = setTimeout(() => {
+      setGameState("react");
+      setStartTime(Date.now());
+      setWaiting(false);
+    }, delay);
   };
 
   const handleClick = () => {
@@ -51,6 +81,11 @@ export default function App() {
       console.log("Too soon!");
       playSound(tooSoonSound);
       setGameState("tooSoon");
+
+      // Clear the timeout to prevent "react" from triggering
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
 
       setTimeout(() => {
         setTooSoon(false);
@@ -77,9 +112,20 @@ export default function App() {
     }
   };
 
+  const toggleMenu = () => {
+    setMenuVisible(!menuVisible);
+  };
+
   return (
     <div className={`container ${darkMode ? "dark-mode" : ""}`}>
-      <div className="leaderboard">
+      {isMobile && (
+        <button className="menu-toggle" onClick={toggleMenu}>
+          {menuVisible ? "✕" : "☰"}
+        </button>
+      )}
+
+      <div className={`leaderboard ${isMobile && menuVisible ? "visible" : ""}`}>
+
         <h3>🏆 Leaderboard 🏆</h3>
         <ul>
           {leaderboard.length === 0 ? (
@@ -100,7 +146,7 @@ export default function App() {
 
       <div className="game-area">
         <button className="toggle-btn" onClick={() => setDarkMode(!darkMode)}>
-          {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+          {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
         </button>
 
         {gameState === "start" && (
@@ -109,7 +155,7 @@ export default function App() {
           </button>
         )}
 
-        {gameState === "waiting" && <div className="message">Get Ready...</div>}
+        {gameState === "waiting" && <div onClick={handleClick} className="message">Get Ready...</div>}
 
         {gameState === "react" && (
           <div onClick={handleClick} className="reaction-screen">
