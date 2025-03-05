@@ -1,12 +1,71 @@
-# React + Vite
+# Reaction Timer Challenge
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+The **Reaction Timer Challenge** is a fun and interactive game built with **React.js and Vite**. It tests users' reaction speed by measuring the time taken to click after a random delay. The game includes features such as a **leaderboard**, **dark mode**, **sound effects**, and a **"Too Soon!" detection** to ensure accurate timing.
 
-Currently, two official plugins are available:
+## Features
+- 🎯 **Reaction Time Measurement** – Click as fast as possible once the screen turns green!
+- 🏆 **Leaderboard** – Tracks the best 5 reaction times.
+- 🌙 **Dark Mode** – Toggle between light and dark themes.
+- 🔊 **Sound Effects** – Click sounds, too soon warnings, and success sounds.
+- ❌ **"Too Soon!" Detection** – Prevents early clicks before the green screen.
+- 🐆 **New Best Time Celebration** – Displays a special animal when a new best time is achieved.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technologies Used
+- **React.js** (Frontend)
+- **Vite** (Bundler)
+- **CSS** (Animations, Styling)
+- **LocalStorage** (Leaderboard Persistence)
 
-## Expanding the ESLint configuration
+## Installation
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/yourusername/reaction-timer-game.git
+cd reaction-timer-game
+```
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 2️⃣ Install Dependencies
+```bash
+npm install
+```
+
+### 3️⃣ Run the Application
+```bash
+npm run dev
+```
+
+## How to Play
+1. Click **Start Game**.
+2. Wait for the screen to turn **green**.
+3. Click as fast as possible!
+4. If you click **too soon**, a warning appears.
+5. Try to beat your **best time**!
+
+## Folder Structure
+```
+/reaction-timer-game
+│── /src
+│   ├── App.jsx          # Main React Component
+│   ├── App.css          # Styling and Animations
+│   ├── sounds/          # Sound effects folder
+│   │   ├── click.mp3
+│   │   ├── too-soon.mp3
+│   │   ├── success.mp3
+│   │   ├── best-time.mp3
+│   ├── main.jsx         # Entry Point
+│── index.html           # Main HTML File
+│── package.json         # Dependencies & Scripts
+│── vite.config.js       # Vite Configuration
+```
+
+## Customization
+- **Modify Sound Effects** – Replace `.mp3` files in `src/sounds/`.
+- **Change Styling** – Edit `App.css` for UI adjustments.
+- **Customize Messages** – Modify `App.jsx` to change texts.
+
+## Credits
+Developed by **[Priyanav]** ✨
+
+## License
+This project is open-source and free to use. 🚀
+
